@@ -1,0 +1,140 @@
+﻿@using Vitely.Application.Models
+@model IEnumerable<Vitely.Application.Models.EmpDeptModel>
+
+@{
+    Pager page = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        page = ViewBag.Pager;
+        pageNo = page.CurrentPage;
+    }
+}
+<h3>Employee List</h3>
+<div>
+    <form asp-action="EmployeeList" method="get" asp-asp-controller="Employee">
+        <div>
+            <input type="text" name="search">
+            <button type="submit" class="btn btn-primary" value="search" name="search">Search</button>
+        </div>
+        <div>
+            <a type="button" class="btn btn-primary" asp-action="EmployeeList" asp-controller="Employee" value="BackToList" >Back to List</a>
+        </div>
+    </form>
+</div>
+<table id="list" class="table table-bordered table-hover table-responsive">
+    <thead>
+        <tr class="active">
+            <th>First Name</th>
+            <th>Last Name</th>
+
+            <th>DepartmentName</th>
+            <th>Salary</th>
+            <th>Join Date</th>
+            <th>Is Active</th>
+            <th>Action</th>
+
+
+
+
+        </tr>
+    <tbody>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var emp in Model)
+                {
+
+
+
+                <tr>
+                    <td>@emp.FirstName</td>
+                    <td>@emp.LastName</td>
+
+                    <td>@emp.DepartmentName</td>
+
+                    <td>@emp.Salary</td>
+
+                    <td>@emp.JoinDate</td>
+                    <td>@emp.IsActive</td>
+                    <td>
+                        <div class="btn-group">
+
+                            <a data-target="#basic" data-id="@emp.EmployeeId" data-toggle="modal" class="btn btn-danger deleteItem">Delete</a>
+                            <a asp-action="EmployeeAddEdit" asp-controller="Employee" class="btn btn-primary">Add</a>
+                            <a asp-action="EmployeeAddEdit" asp-route-Id="@emp.EmployeeId" asp-controller="Employee" class="btn btn-primary">Edit</a>
+
+
+                        </div>
+                    </td>
+
+
+
+                </tr>
+
+                }
+            }
+
+
+
+    </tbody>
+</table>
+<div class="container">
+    @if (page.TotalPages > 0)
+    {
+        <ul class="pagination justify-content-end">
+            @for (var pge = page.StartPage; pge <= page.EndPage; pge++)
+            {
+
+                <li class="page-item @(pge==page.CurrentPage?"active":"")">
+                    <a class="page-link" asp-controller="Employee" asp-action="EmployeeList" asp-route-pg="@pge">@pge</a>
+
+                </li>
+
+            }
+
+
+        </ul>
+    }
+
+</div>
+@*Model Popup *@
+<div class="modal fade" id="basic" tabindex="-1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center deletemodalheader">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <span class="modal-title w-100">Delete Confirmation</span>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this item?
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" type="button" class="btn btn-default">Cancel</button>
+                <button id="btnContinueDelete" type="button" class="btn btn-primary">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+
+
+    <script>
+
+        var url;
+        $('.deleteItem').click(function (event) {
+            $('#basic').modal('show');
+            var Id = $(this).data('id');
+            url = "/Employee/EmployeeDelete/" + Id;
+        });
+
+
+
+        $('#btnContinueDelete').click(function () {
+            window.location = url;
+        });
+
+
+    </script>
+
+}

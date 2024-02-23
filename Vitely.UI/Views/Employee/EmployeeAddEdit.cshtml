@@ -1,0 +1,122 @@
+﻿@model Vitely.Application.Models.EmployeeModel
+<h3>Add Department</h3>
+
+        <form method="post">
+            <input type="hidden" id="EmployeeId" asp-for="@Model.EmployeeId"/>
+            <div class="mb-3">
+                <label class="form-label">FirstNAme</label>
+                <input type="text" id="FirstName" class="form-control" asp-for="@Model.FirstName" name="FirstName" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">LastName</label>
+
+        <input type="text" id="LastName" class="form-control" asp-for="@Model.LastName" name="LastName" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+
+            </div>
+            <div class="mb-3">
+                <label class="form-label">DepartmentName</label>
+        <select asp-for="DepartmentId"
+                class="form-control"
+                asp-items="@(new SelectList(@ViewBag.Departments,"DepartmentId", "DepartmentName"))">
+        </select>  
+@* 
+        <select asp-for="DepartmentId" asp-items="@(new SelectList(Model.Departments,"DepartmentId","DepartmentName"))">
+<option value="select">Select</option>
+                </select> *@
+
+            </div>
+    <div class="mb-3">
+        <label class="form-label"> Join Date</label>
+
+        <input type="date" id="JoinDate" class="form-control" asp-for="@Model.JoinDate" name="JoinDate" />
+        <span asp-validation-for="JoinDate" class="text-danger"></span>
+
+    </div>
+            <div class="mb-3">
+                <label class="form-label">Salary</label>
+
+        <input type="text" class="form-control" id="Salary" asp-for="@Model.Salary" name="Salary" />
+
+            </div>
+    
+            <div class="mb-3">
+                <label class="form-label"></label>
+        <input type="checkbox" id="IsActive" checked asp-for="@Model.IsActive" name="IsActive" />
+            </div>
+            
+
+                <button type="submit" class="btn btn-primary" value="Add" id="Add" name="Add">Add</button>
+                <button type="submit" value="Update" class="btn btn-primary" id="Update" name="Update" >Update</button>
+
+        </form>
+    
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        
+
+
+
+        $("#Update").click(function (e) {
+            var empObj = {
+                // EmployeeID: $('#EmployeeID').val(),
+                FirstName: $('#FirstName').val();
+                LastName: $('#LastName').val();
+                Salary: $('#Salary').val();
+                DepartmentId: $('#DepartmentId').val();
+                IsActive: $('#IsActive').val();
+
+
+
+            };
+            $.ajax({
+                url: "/Employee/EmployeeAddEdit",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+
+        });
+        $("#Add").click(function (e) {
+            var empObj = {
+               // EmployeeID: $('#EmployeeID').val(),
+                FirstName: $('#FirstName').val();
+                LastName: $('#LastName').val();
+                Salary: $('#Salary').val();
+                DepartmentId: $('#DepartmentId').val();
+                IsActive: $('#IsActive').val();
+
+
+
+            };
+            $.ajax({
+                url: "/Employee/EmployeeAddEdit",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+
+        });
+
+    </script>
+
+}

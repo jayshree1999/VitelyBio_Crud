@@ -1,0 +1,67 @@
+﻿@model Vitely.Application.Models.DepartmentModel
+<h3>Add Department</h3>
+
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Department Name</label>
+                <input type="text" id="DepartmentName" class="form-control" asp-for="@Model.DepartmentName" name="DepartmentName" />
+                <span asp-validation-for="DepartmentName" class="text-danger"></span>
+            </div>
+            <div>
+                <label class="form-label">IsActive</label>
+                <input type="checkbox" checked id="IsActive" asp-for="@Model.IsActive" name="IsActive" />
+            </div>
+            
+
+            <div>
+                <input type="submit" value="Add" id="Add" name="Add" />
+                <input type="submit" value="Update" id="Update" name="Update" />
+
+            </div>
+        </form>
+
+@section Scripts {
+    <script>
+        $("#Update").click(function (e) {
+            var empObj = {
+                DepartmentName: $('#DepartmentName').val();
+
+            };
+            $.ajax({
+                url: "/Department/DepartmentAddEdit",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+
+
+
+        $("#Add").click(function (e) {
+            var empObj = {
+                DepartmentName: $('#DepartmentName').val();
+
+            };
+            $.ajax({
+                url: "/Department/DepartmentAddEdit",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+
+        });
+
+    </script>
+
+}

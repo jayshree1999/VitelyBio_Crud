@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Vitely.Application.Models.DepartmentModel>
+<h3>
+    Department List
+</h3><table class="table table-hover table-bordered table-responsive">
+    <thead >
+        <tr class="active">
+            <th>DepartmentName</th>
+            <th>ACtion</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model!=null && Model.Any())
+        {
+            @foreach (var dept in Model)
+            {
+                <tr>
+                    <td>@dept.DepartmentName</td>
+                    <td><a asp-action="DepartmentAddEdit" class="btn btn-primary" asp-controller="Department" asp-route-DepartmentId="@dept.DepartmentId">Edit</a>
+                        <a asp-action="DepartmentAddEdit" class="btn btn-primary" asp-controller="Department">Add</a>
+                    </td>
+                </tr>
+
+            }
+            
+        }
+        
+    </tbody>
+</table>
